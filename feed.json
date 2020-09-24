@@ -1,0 +1,27 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "studiomav",
+    "description": "",
+    "home_page_url": "https://studiomav.com",
+    "feed_url": "https://studiomav.com/feed.json",
+    "user_comment": "",
+    "author": {
+        "name": "mav"
+    },
+    "items": [
+        {
+            "id": "https://studiomav.com/doodle-or-die-a-players-meta.html",
+            "url": "https://studiomav.com/doodle-or-die-a-players-meta.html",
+            "title": "Doodle or Die: A Players&#x27; Meta",
+            "summary": " PDF here ",
+            "content_html": "\n  <p>\n    PDF here\n  </p>",
+            "author": {
+                "name": "mav"
+            },
+            "tags": [
+            ],
+            "date_published": "2020-09-23T19:59:26-07:00",
+            "date_modified": "2020-09-23T19:59:26-07:00"
+        }
+    ]
+}

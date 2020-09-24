@@ -1,3 +1,0 @@
-RewriteEngine On
-RewriteCond %{HTTPS} !=on
-RewriteRule .* https://www.studiomav.com/%{REQUEST_URI} [R,L]

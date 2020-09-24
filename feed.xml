@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>studiomav</title>
+    <link href="https://studiomav.com/feed.xml" rel="self" />
+    <link href="https://studiomav.com" />
+    <updated>1969-12-31T16:00:00-08:00</updated>
+    <author>
+        <name>mav</name>
+    </author>
+    <id>https://studiomav.com</id>
+
+    <entry>
+        <title>Doodle or Die: A Players&#x27; Meta</title>
+        <author>
+            <name>mav</name>
+        </author>
+        <link href="https://studiomav.com/doodle-or-die-a-players-meta.html"/>
+        <id>https://studiomav.com/doodle-or-die-a-players-meta.html</id>
+
+        <updated>2020-09-23T19:59:26-07:00</updated>
+            <summary>
+                <![CDATA[
+                     PDF here 
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                
+  <p>
+    PDF here
+  </p>
+            ]]>
+        </content>
+    </entry>
+</feed>
