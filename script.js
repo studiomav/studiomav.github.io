@@ -24,5 +24,6 @@ $(document).ready(function()
 {
   $("#load_dod").on("click", function() {
       $("#content").load("dod.html");
+      console.log('loaded dod');
   });
 });
