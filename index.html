@@ -20,17 +20,6 @@
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
         <script src="script.js"></script>
-
-        <script>
-        function load_home()
-        {
-          document.getElementById("article").innerHTML='<object type="type/html" data="home.html"></object>';
-        }
-        function load_dod()
-        {
-          document.getElementById("article").innerHTML='<object type="type/html" data="dod.html"></object>';
-        }
-        </script>
     </head>
     <body>
 		<div class="wrapAll clearfix">
@@ -42,7 +31,7 @@
 			  <div class="navigation">
 				  <h3>Papers</h3>
 				  <ul>
-				    <li><a href="#" onclick="load_dod()">Doodle or Die</a></li>
+				    <li><a href="#" id="load_dod">Doodle or Die</a></li>
 					 <li><a href="#">Formal vs Informal Language</a></li>
 					</ul>
 					<h3>RPG Maker Scripts</h3>
@@ -55,7 +44,7 @@
 
 			<div class="mainsection">
 
-				<div class="article">
+				<div class="article" id="content">
 					<p>Welcome to my web page. On the left you can find links to my various projects. RPG Maker scripts are unavailable until I can port them to version MZ (fingers crossed for a sale soon).</p>
 				</div>
 

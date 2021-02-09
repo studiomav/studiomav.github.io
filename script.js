@@ -1,4 +1,3 @@
-// Avoid `console` errors in browsers that lack a console.
 (function() {
     var method;
     var noop = function () {};
@@ -21,26 +20,9 @@
     }
 }());
 
-// Place any jQuery/helper plugins in here.
-
-$(document).ready(function(){
-	$(".contentsPanel").each(function() {                
-		$(this).prepend('<div class="hidePanel">[hide]</div><div class="showPanel">[show]</div>');
-	});
-	
-	
-    $(".hidePanel").click(function(){
-		$( this ).siblings('ul').hide( 150, function() { 
-			$(this).parent().addClass('minimizedPanel');
-		});
-    });
-    $(".showPanel").click(function(){
-		$( this ).siblings('ul').show( 150, function() { 
-			$(this).parent().removeClass('minimizedPanel');
-		});
-    });
-	
-	
+$(document).ready(function()
+{
+  $("#load_dod").on("click", function() {
+      $("#content").load("dod.html");
+  });
 });
-
-
