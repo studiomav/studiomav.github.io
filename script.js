@@ -28,4 +28,7 @@ $(document).ready(function()
   $("#load_dod").on("click", function() {
       $("#content").load("dod.html");
   });
+  $("#load_formal").on("click", function() {
+      $("#content").load("formal.html");
+  });
 });
