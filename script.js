@@ -22,6 +22,7 @@
 
 $(document).ready(function()
 {
+  console.log('v0.1');
   $("#load_home").on("click", function() {
       $("#content").load("home.html");
   });
