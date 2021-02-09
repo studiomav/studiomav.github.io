@@ -22,8 +22,10 @@
 
 $(document).ready(function()
 {
+  $("#load_home").on("click", function() {
+      $("#content").load("home.html");
+  });
   $("#load_dod").on("click", function() {
       $("#content").load("dod.html");
-      console.log('loaded dod');
   });
 });
