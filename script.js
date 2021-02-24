@@ -22,8 +22,8 @@
 
 $(document).ready(function()
 {
+  console.log('Hi! If you\'re checking out the console then you\'re probably a smart person. Hopefully there\'s nothing embarrassing in here!');
   $("#content").load("home.html");
-  console.log('v0.11');
   $("#load_home").on("click", function() {
       $("#content").load("home.html");
   });
