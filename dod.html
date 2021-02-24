@@ -1,2 +1,10 @@
-<embed src="https://drive.google.com/viewerng/
-viewer?embedded=true&url=https://studiomav.github.io/doodleordie.pdf" width="750" height="1000">
+<script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+<script type="text/javascript">
+	document.addEventListener("adobe_dc_view_sdk.ready", function(){
+		var adobeDCView = new AdobeDC.View({clientId: "d5a1e65af69e4d4f95ac81d319af7657"});
+		adobeDCView.previewFile({
+			content:{location: {url: "dod.pdf"}},
+			metaData:{fileName: "dod.pdf"}
+		}, {embedMode: "LIGHT_BOX"});
+	});
+</script>
