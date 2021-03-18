@@ -596,9 +596,9 @@ span.user {
 	}
 }
 @media screen and (max-width: 550px) {
-	/*.sidebar {
+	.sidebar {
 		width: 9em;
-		padding: 3px 0.5em 10px 0.5em;*/
+		padding: 3px 0.5em 10px 0.5em;
 	}
 	.mainsection {
 		/*margin: 0 0 0 7em;*/
