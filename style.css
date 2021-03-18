@@ -368,7 +368,7 @@ div.articleRightInner {
 .mainsection {
 	margin: 4em 0 0 11em;
 	min-width: 25em;
-	max-width: 50em;
+	max-width: 35em;
 }
 .headerLinks {
 	text-align: right;
@@ -455,9 +455,9 @@ div.articleRightInner {
 	line-height: 0;
 }
 .article {
-	padding: 1.25em 1.5em 1.5em 1.5em;
+	padding: 1.5em 1.5em 1.5em 1.5em;
 	border: 1px solid #C3C3C3;
-	background: #FFF;
+	background: #ebf2ff;
 	line-height: 1.6;
 	font-size: 0.875em;
 }
