@@ -596,6 +596,7 @@ span.user {
 }
 @media screen and (max-width: 550px) {
 	.sidebar {
+		font-size: 8;
 		width: 9em;
 		padding: 3px 0.5em 10px 0.5em;
 	}
