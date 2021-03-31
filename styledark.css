@@ -306,7 +306,7 @@ h1 {
 	font-size: 2.3em;
 }
 a, a:visited {
-	color: #0645ad;
+	color: #004f4c;
 	text-decoration: none;
 }
 a:hover {
@@ -493,7 +493,7 @@ span.user {
 	position: absolute;
 	right: 20px;
 	cursor: pointer;
-	color: #0645ad;
+	color: #004f4c;
 	top: 4px;
 }
 .contentsPanel ul li span {
@@ -541,7 +541,7 @@ span.user {
 	line-height: 1.5em;
 	text-align: center;
 	font-weight: bold;
-	color: #0645ad;
+	color: #004f4c;
 	font-size: 115%;
 	margin-bottom: 3px;
 }
