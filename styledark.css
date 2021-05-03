@@ -324,7 +324,7 @@ a:hover {
 }
 .sidebar h3 {
 	font-size: 0.75em;
-	color: #4d4d4d;
+	color: #919191;
 	font-weight: normal;
 	margin: 0.5em 0 0 0;
 	padding: 0.25em 0;
@@ -459,7 +459,7 @@ div.articleRightInner {
 .article {
 	padding: 1.5em 1.5em 1.5em 1.5em;
 	border: 1px solid #C3C3C3;
-	background: #f5f8ff;
+	background: #686c73;
 	line-height: 1.6;
 	font-size: 0.875em;
 }
