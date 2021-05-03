@@ -147,7 +147,7 @@ td,th {
 	padding: 0;
 }
 html {
-	color: #696969;
+	color: #d0cece;
 	font-size: 1em;
 	line-height: 1.4;
 	background-color: #001217;
@@ -324,7 +324,7 @@ a:hover {
 }
 .sidebar h3 {
 	font-size: 0.75em;
-	color: #919191;
+	color: #d0cece;
 	font-weight: normal;
 	margin: 0.5em 0 0 0;
 	padding: 0.25em 0;
