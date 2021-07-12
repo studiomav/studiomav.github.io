@@ -1,0 +1,36 @@
+<script src="howler.js"></script>
+
+<body>
+  <p>
+    Speed: <input type="range" min="25" max="100" value="75" class="slider" id="playbackSpeed" onchange="updateSpeed(this.value)"> <span id="speedValue">75</span>
+  </p>
+  <p id="group0">
+    Track 1:
+  <select id="track0select" onchange="playTrack(0, this.value-1);">
+    <option value="0">Select a track</option>
+  </select>
+  </p>
+
+  <p id="group1" style="visibility:hidden">
+    Track 2:
+  <select id="track1select" onchange="playTrack(1, this.value-1);">
+    <option value="0">Select a track</option>
+  </select>
+  </p>
+
+  <p id="group2" style="visibility:hidden">
+    Track 3:
+  <select id="track2select" onchange="playTrack(2, this.value-1);">
+    <option value="0">Select a track</option>
+  </select>
+  </p>
+
+  <p id="group3" style="visibility:hidden">
+    Track 4:
+  <select id="track3select" onchange="playTrack(3, this.value-1);">
+    <option value="0">Select a track</option>
+  </select>
+  </p>
+</body>
+
+<script src="mashup.js"></script>
