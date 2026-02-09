@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>mav's hiphop taste</title>
+
+
+<script type="importmap">
+{
+"imports": {
+"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+}
+}
+</script>
+
+
+<style>
+body {
+margin: 0;
+overflow: hidden;
+background: #0b0b0b;
+font-family: system-ui, sans-serif;
+color: white;
+}
+
+
+#ui {
+position: fixed;
+top: 12px;
+left: 12px;
+background: rgba(20,20,20,0.9);
+padding: 12px;
+border-radius: 8px;
+z-index: 10;
+font-size: 14px;
+}
+
+
+.artist-label {
+font-size: 12px;
+background: rgba(0,0,0,0.55);
+padding: 4px 6px;
+border-radius: 4px;
+white-space: nowrap;
+opacity: 0.5;
+transition: opacity 0.2s ease;
+}
+
+
+.artist-label .meta {
+display: none;
+font-size: 11px;
+opacity: 0.85;
+}
+
+
+.artist-label.hovered {
+opacity: 1;
+}
+
+
+.artist-label.hovered .meta {
+display: block;
+}
+</style>
+</head>
+<body>
+
+
+<div id="ui">
+<div style="margin-bottom:8px">
+<strong>mav's hiphop taste</strong><br />
+<span style="font-size:12px; opacity:0.8">
+purely subjective, make of it what you will<br />
+decades are assigned based on general prominence<br />
+vocals = mix of vocal quality and flow<br />
+lyricism = obvious<br />
+production/vibes = how good the song or beat is, regardless if self-produced or not<br />
+left mouse to spin, right mouse to drag, scroll wheel to zoom
+</span>
+</div>
+<strong>color by:</strong><br />
+<select id="colorMode">
+<option value="decade">Decade</option>
+<option value="gender">Gender</option>
+<option value="region">Region</option>
+</select>
+</div>
+
+<script type="module">
+  import * as THREE from "three";
+  import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+  import { CSS2DRenderer, CSS2DObject } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/renderers/CSS2DRenderer.js";
+  
+  
+  const SCORE_CENTER = 5;
+  const SCALE = 1.2;
+  const BOX_SIZE = 12;
+  
+  
+  function normalizeScore(v) {
+  return (v - SCORE_CENTER) * SCALE;
+  }
+
+const artists = [
+  { name: "Kendrick Lamar", vocals: 7.5, lyricism: 9.5, production: 7.0, decade: "2010s", gender: "male", region: "West Coast" },
+  { name: "Drake", vocals: 3.0, lyricism: 3.0, production: 8.0, decade: "2010s", gender: "male", region: "Canada" },
+  { name: "MF DOOM", vocals: 8.5, lyricism: 9.0, production: 7.0, decade: "2000s", gender: "male", region: "East Coast" },
+  { name: "Missy Elliott", vocals: 6.0, lyricism: 5.0, production: 8.0, decade: "1990s", gender: "female", region: "East Coast" },
+  { name: "Little Simz", vocals: 8.0, lyricism: 5.0, production: 5.0, decade: "2010s", gender: "female", region: "UK" },
+  { name: "Travis Scott", vocals: 5.0, lyricism: 5.0, production: 7.2, decade: "2010s", gender: "male", region: "South" },
+  { name: "Run-D.M.C.", vocals: 4.0, lyricism: 4.0, production: 7.5, decade: "1980s", gender: "group", region: "East Coast" },
+  { name: "Jay-Z", vocals: 4.5, lyricism: 6.5, production: 6.8, decade: "1990s", gender: "male", region: "East Coast" },
+  { name: "Nas", vocals: 8.2, lyricism: 8.2, production: 7.8, decade: "1990s", gender: "male", region: "East Coast" },
+  { name: "Notorious B.I.G.", vocals: 9.2, lyricism: 9.0, production: 8.4, decade: "1990s", gender: "male", region: "East Coast" },
+  { name: "Wu-Tang Clan", vocals: 6.1, lyricism: 7.5, production: 3.0, decade: "1990s", gender: "group", region: "East Coast" },
+  { name: "Lauryn Hill", vocals: 6.3, lyricism: 6.6, production: 7.5, decade: "1990s", gender: "female", region: "East Coast" },
+  { name: "Pop Smoke", vocals: 3.8, lyricism: 2.0, production: 7.0, decade: "2020s", gender: "male", region: "East Coast" },
+  { name: "Doja Cat", vocals: 8.1, lyricism: 5.0, production: 8.8, decade: "2020s", gender: "female", region: "West Coast" },
+  { name: "Cordae", vocals: 7.5, lyricism: 5.0, production: 5.0, decade: "2020s", gender: "male", region: "East Coast" },
+  { name: "Lil Baby", vocals: 3.0, lyricism: 3.8, production: 4.8, decade: "2020s", gender: "male", region: "South" },
+  { name: "Gunna", vocals: 7.1, lyricism: 6.8, production: 8.0, decade: "2020s", gender: "male", region: "South" },
+  { name: "Coi Leray", vocals: 7.5, lyricism: 6.5, production: 7.0, decade: "2020s", gender: "female", region: "East Coast" },
+  { name: "Pressa", vocals: 0.9, lyricism: 0.2, production: 3.5, decade: "2020s", gender: "male", region: "Canada" },
+  { name: "2Pac", vocals: 8.5, lyricism: 8.2, production: 7.5, decade: "1990s", gender: "male", region: "West Coast" },
+  { name: "Snoop Dogg", vocals: 5.2, lyricism: 6.3, production: 6.5, decade: "1990s", gender: "male", region: "West Coast" },
+  { name: "Dr. Dre", vocals: 7.8, lyricism: 6.0, production: 9.5, decade: "1990s", gender: "male", region: "West Coast" },
+  { name: "N.W.A", vocals: 7.0, lyricism: 7.0, production: 7.5, decade: "1980s", gender: "group", region: "West Coast" },
+  { name: "Ice Cube", vocals: 5.0, lyricism: 5.5, production: 7.3, decade: "1990s", gender: "male", region: "West Coast" },
+  { name: "OutKast", vocals: 7.3, lyricism: 8.5, production: 8.0, decade: "1990s", gender: "group", region: "South" },
+  { name: "Lil Wayne", vocals: 6.8, lyricism: 7.7, production: 8.0, decade: "2000s", gender: "male", region: "South" },
+  { name: "Future", vocals: 5.6, lyricism: 5.0, production: 6.7, decade: "2010s", gender: "male", region: "South" },
+  { name: "21 Savage", vocals: 7.4, lyricism: 6.1, production: 7.5, decade: "2010s", gender: "male", region: "South" },
+  { name: "Megan Thee Stallion", vocals: 3.1, lyricism: 3.0, production: 7.0, decade: "2020s", gender: "female", region: "South" },
+  { name: "Eminem", vocals: 7.5, lyricism: 9.9, production: 7.0, decade: "2000s", gender: "male", region: "Midwest" },
+  { name: "Chance the Rapper", vocals: 8.5, lyricism: 3.8, production: 7.9, decade: "2010s", gender: "male", region: "Midwest" },
+  { name: "Mac Miller", vocals: 8.0, lyricism: 8.0, production: 8.2, decade: "2010s", gender: "male", region: "Midwest" },
+  { name: "Juice WRLD", vocals: 7.7, lyricism: 8.5, production: 8.5, decade: "2010s", gender: "male", region: "Midwest" },
+  { name: "Meek Mill", vocals: 4.7, lyricism: 4.5, production: 6.5, decade: "2010s", gender: "male", region: "East Coast" },
+  { name: "Nicki Minaj", vocals: 6.5, lyricism: 2.2, production: 6.8, decade: "2010s", gender: "female", region: "East Coast" },
+  { name: "Cardi B", vocals: 1.5, lyricism: 2.5, production: 6.5, decade: "2010s", gender: "female", region: "East Coast" },
+  { name: "Rapsody", vocals: 2.0, lyricism: 5.1, production: 7.5, decade: "2010s", gender: "female", region: "South" },
+  { name: "Saweetie", vocals: 3.5, lyricism: 2.5, production: 6.0, decade: "2020s", gender: "female", region: "West Coast" },
+  { name: "Zack Fox", vocals: 7.8, lyricism: 7.2, production: 8.0, decade: "2020s", gender: "male", region: "South" },
+  { name: "Ab-Soul", vocals: 8.1, lyricism: 7.0, production: 7.5, decade: "2010s", gender: "group", region: "West Coast" },
+  { name: "Zacari", vocals: 6.9, lyricism: 6.5, production: 9.2, decade: "2020s", gender: "group", region: "West Coast" },
+  { name: "Erykah Badu", vocals: 3.8, lyricism: 5.2, production: 6.4, decade: "1990s", gender: "female", region: "South" },
+  { name: "Salt-N-Pepa", vocals: 8.8, lyricism: 6.2, production: 8.4, decade: "1990s", gender: "group", region: "East Coast" },
+  { name: "Tory Lanez", vocals: 7.5, lyricism: 5.0, production: 7.8, decade: "2020s", gender: "male", region: "Canada" },
+  { name: "Danny Brown", vocals: 8.5, lyricism: 6.9, production: 9.5, decade: "2020s", gender: "male", region: "Midwest" },
+  { name: "Denzel Curry", vocals: 7.8, lyricism: 7.9, production: 8.4, decade: "2010s", gender: "male", region: "South" },
+  { name: "Lil Jon", vocals: 6.7, lyricism: 4.9, production: 7.4, decade: "2010s", gender: "male", region: "South" },
+  { name: "Yin Yang Twins", vocals: 4.4, lyricism: 3.3, production: 7.2, decade: "2000s", gender: "group", region: "South" },
+  { name: "Fetty Wap", vocals: 9.1, lyricism: 7.5, production: 8.2, decade: "2010s", gender: "male", region: "East Coast" },
+  { name: "50 Cent", vocals: 6.9, lyricism: 5.2, production: 7.9, decade: "2000s", gender: "male", region: "East Coast" },
+  { name: "Trippie Redd", vocals: 7.9, lyricism: 5.0, production: 8.5, decade: "2010s", gender: "male", region: "Midwest" },
+  { name: "Will Smith", vocals: 5.9, lyricism: 5.9, production: 8.2, decade: "1990s", gender: "male", region: "East Coast" },
+  { name: "T-Pain", vocals: 8.9, lyricism: 6.2, production: 8.2, decade: "2000s", gender: "male", region: "South" },
+  { name: "Akon", vocals: 5.9, lyricism: 6.7, production: 7.8, decade: "2000s", gender: "male", region: "South" },
+  { name: "Mike Jones", vocals: 2.9, lyricism: 3.9, production: 4.4, decade: "2000s", gender: "male", region: "South" },
+  { name: "Yuno Miles", vocals: 0.0, lyricism: 1.0, production: 4.9, decade: "2020s", gender: "male", region: "East Coast" },
+  { name: "Pusha T", vocals: 8.1, lyricism: 8.1, production: 4.2, decade: "2010s", gender: "male", region: "South" },
+  { name: "BigXthaPlug", vocals: 8.5, lyricism: 7.8, production: 8.4, decade: "2020s", gender: "male", region: "South" },
+  { name: "Kanye West", vocals: 3.2, lyricism: 4.2, production: 8.9, decade: "2000s", gender: "male", region: "South" },
+  { name: "Chief Keef", vocals: 4.1, lyricism: 2.2, production: 4.4, decade: "2010s", gender: "male", region: "Midwest" },
+  { name: "Big Sean", vocals: 5.1, lyricism: 7.2, production: 7.4, decade: "2010s", gender: "male", region: "Midwest" },
+  { name: "Teezo Touchdown", vocals: 5.4, lyricism: 3.6, production: 7.6, decade: "2020s", gender: "male", region: "South" },
+  { name: "XXXTENTACION", vocals: 9.1, lyricism: 8.2, production: 9.1, decade: "2010s", gender: "male", region: "South" },
+  { name: "Lil Peep", vocals: 4.1, lyricism: 3.1, production: 7.0, decade: "2010s", gender: "male", region: "West Coast" },
+  { name: "Tyler, The Creator", vocals: 7.2, lyricism: 8.9, production: 9.0, decade: "2010s", gender: "male", region: "West Coast" },
+  { name: "Don Toliver", vocals: 0.5, lyricism: 4.3, production: 9.3, decade: "2020s", gender: "male", region: "South" },
+];
+
+const colorMaps = {
+  decade: { "1980s": 0xff0044, "1990s": 0xff4400, "2000s": 0x226644, "2010s": 0x8888ff, "2020s": 0xe2ed47 },
+  gender: { male: 0x4da6ff, female: 0xff4dc4, group: 0x44222 },
+  region: { "West Coast": 0x035afc, "East Coast": 0xff4444, "South": 0xffff44, "Midwest": 0xe36b2b, "UK": 0x00ff1a, "Canada": 0x8a00ff }
+};
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x050508);
+
+
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(14, 14, 14);
+
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(window.innerWidth, window.innerHeight);
+labelRenderer.domElement.style.position = "fixed";
+labelRenderer.domElement.style.top = "0";
+labelRenderer.domElement.style.pointerEvents = "none";
+document.body.appendChild(labelRenderer.domElement);
+
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.target.set(0, 0, 0);
+
+/* ===== Static Galaxy Background with Twinkle ===== */
+const starGeo = new THREE.BufferGeometry();
+const starCount = 1800;
+const positions = [];
+const opacities = [];
+
+for (let i = 0; i < starCount; i++) {
+  positions.push(
+    (Math.random() - 0.5) * 80,
+    (Math.random() - 0.5) * 80,
+    (Math.random() - 0.5) * 80
+  );
+  opacities.push(Math.random());
+}
+
+starGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+starGeo.setAttribute('alpha', new THREE.Float32BufferAttribute(opacities, 1));
+
+const starMat = new THREE.PointsMaterial({
+  color: 0x8888ff,
+  size: 0.08,
+  transparent: true,
+  opacity: 0.6,
+  depthWrite: false
+});
+
+const stars = new THREE.Points(starGeo, starMat);
+stars.userData.twinkle = starGeo.getAttribute('alpha');
+scene.add(stars);
+
+/* ===== Bounding Box + Axes ===== */
+const box = new THREE.BoxHelper(
+new THREE.Mesh(new THREE.BoxGeometry(BOX_SIZE, BOX_SIZE, BOX_SIZE)),
+0x444444
+);
+scene.add(box);
+
+// Diagonal line from 💩 to ⭐
+const diagPoints = [
+  new THREE.Vector3(-BOX_SIZE / 2, -BOX_SIZE / 2, -BOX_SIZE / 2),
+  new THREE.Vector3( BOX_SIZE / 2, BOX_SIZE / 2, BOX_SIZE / 2)
+];
+
+const diagGeo = new THREE.BufferGeometry().setFromPoints(diagPoints);
+const diagMat = new THREE.LineBasicMaterial({
+  color: 0xffffff,
+  transparent: true,
+  opacity: 0.35
+});
+
+const diagonal = new THREE.Line(diagGeo, diagMat);
+scene.add(diagonal);
+
+// Corner emojis
+function cornerEmoji(emoji, pos) {
+const el = document.createElement('div');
+el.style.fontSize = '22px';
+el.style.opacity = '0.6';
+el.textContent = emoji;
+const obj = new CSS2DObject(el);
+obj.position.copy(pos);
+scene.add(obj);
+}
+
+cornerEmoji('⭐', new THREE.Vector3(BOX_SIZE/2, BOX_SIZE/2, BOX_SIZE/2));
+cornerEmoji('💩', new THREE.Vector3(-BOX_SIZE/2, -BOX_SIZE/2, -BOX_SIZE/2));
+
+function axisLabel(text, pos) {
+  const el = document.createElement('div');
+  el.className = 'artist-label';
+  el.style.opacity = 0.5;
+  el.innerHTML = text;
+  const label = new CSS2DObject(el);
+  label.position.copy(pos);
+  scene.add(label);
+  return label;
+}
+
+// Positive (Best) axis labels
+axisLabel('Best Vocals', new THREE.Vector3(BOX_SIZE / 2 + 0.6, 0, 0));
+axisLabel('Best Lyricism', new THREE.Vector3(0, BOX_SIZE / 2 + 0.6, 0));
+axisLabel('Best Production / Vibes', new THREE.Vector3(0, 0, BOX_SIZE / 2 + 0.6));
+
+// Negative (Worst) axis labels
+axisLabel('Worst Vocals', new THREE.Vector3(-BOX_SIZE / 2 - 0.6, 0, 0));
+axisLabel('Worst Lyricism', new THREE.Vector3(0, -BOX_SIZE / 2 - 0.6, 0));
+axisLabel('Worst Production / Vibes', new THREE.Vector3(0, 0, -BOX_SIZE / 2 - 0.6));
+
+/* ===== Artist Points ===== */
+const group = new THREE.Group();
+scene.add(group);
+const points = [];
+const artistLabels = [];
+
+function getColor(a, mode) {
+  return colorMaps[mode][a[mode]] ?? 0xffffff;
+}
+
+function rebuildPoints(mode) {
+  // --- CLEAN UP OLD LABELS (prevents ghosting) ---
+  artistLabels.forEach(label => {
+    if (label.parent) label.parent.remove(label);
+  });
+  artistLabels.length = 0;
+
+  group.clear();
+  points.length = 0;
+
+  artists.forEach(a => {
+    const geo = new THREE.SphereGeometry(0.22, 16, 16);
+    const mat = new THREE.MeshBasicMaterial({ color: getColor(a, mode) });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    mesh.position.set(
+      normalizeScore(a.vocals),
+      normalizeScore(a.lyricism),
+      normalizeScore(a.production)
+    );
+
+    const el = document.createElement('div');
+    el.className = 'artist-label';
+    el.innerHTML = `
+      <strong>${a.name}</strong>
+      <div class="meta">${a.decade} · ${a.gender} · ${a.region}</div>
+    `;
+
+    const label = new CSS2DObject(el);
+    label.position.set(0, 0.35, 0);
+    mesh.add(label);
+
+    artistLabels.push(label);
+
+    mesh.userData = { labelEl: el };
+
+    group.add(mesh);
+    points.push(mesh);
+  });
+}
+
+rebuildPoints('decade');
+introCameraSpin(2000);
+
+/* ===== Hover ===== */
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+window.addEventListener('mousemove', e => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+});
+
+function handleHover() {
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(points);
+
+  points.forEach(p => {
+    p.scale.set(1, 1, 1);
+    p.userData.labelEl.classList.remove('hovered');
+  });
+
+  if (hits.length) {
+    const p = hits[0].object;
+    p.scale.set(1.5, 1.5, 1.5);
+    p.userData.labelEl.classList.add('hovered');
+  }
+}
+
+/* ===== UI ===== */
+document.getElementById('colorMode').addEventListener('change', e => rebuildPoints(e.target.value));
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function animate() {
+  // distance-based label fading
+  artistLabels.forEach(label => {
+    const worldPos = new THREE.Vector3();
+    label.getWorldPosition(worldPos);
+
+    const distance = camera.position.distanceTo(worldPos);
+
+    const fadeStart = 8;   // fully visible
+    const fadeEnd   = 20;  // mostly faded
+
+    const t = THREE.MathUtils.clamp(
+      (distance - fadeStart) / (fadeEnd - fadeStart),
+      0,
+      1
+    );
+
+    label.element.style.opacity = (1 - t) * 0.9 + 0.1;
+  });
+
+  // subtle star twinkle
+  const a = stars.userData.twinkle;
+  for (let i = 0; i < a.count; i++) {
+    a.array[i] += (Math.random() - 0.5) * 0.002;
+    a.array[i] = Math.max(0.2, Math.min(1, a.array[i]));
+  }
+  a.needsUpdate = true;
+  requestAnimationFrame(animate);
+  controls.update();
+  handleHover();
+  renderer.render(scene, camera, 1); // Render layer 1 with the WebGL renderer
+  labelRenderer.render(scene, camera);
+}
+
+function introCameraSpin(duration = 2000) {
+  controls.enabled = false;
+
+  const startTime = performance.now();
+
+  // Starting farther away
+  const startRadius = 32;
+
+  // Ending closer
+  const endRadius = 18;
+
+  // Random orbit angles
+  const startTheta = Math.random() * Math.PI * 2;
+  const endTheta   = startTheta + (Math.random() * Math.PI * 1.5 + Math.PI * 0.5);
+
+  const startPhi = Math.PI / 2;
+  const endPhi   = Math.random() * (Math.PI * 0.35) + Math.PI * 0.25;
+
+  function animateIntro(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    const e = easeOutCubic(t);
+
+    const radius = THREE.MathUtils.lerp(startRadius, endRadius, e);
+    const theta  = THREE.MathUtils.lerp(startTheta, endTheta, e);
+    const phi    = THREE.MathUtils.lerp(startPhi, endPhi, e);
+
+    const x = radius * Math.sin(phi) * Math.cos(theta);
+    const y = radius * Math.cos(phi);
+    const z = radius * Math.sin(phi) * Math.sin(theta);
+
+    camera.position.set(x, y, z);
+    camera.lookAt(controls.target);
+
+    if (t < 1) {
+      requestAnimationFrame(animateIntro);
+    } else {
+      controls.enabled = true;
+      controls.update();
+    }
+  }
+
+  requestAnimationFrame(animateIntro);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  labelRenderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+</body>
+</html>
